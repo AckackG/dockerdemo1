@@ -10,7 +10,7 @@ HOST = '0.0.0.0'
 PORT = 5000
 
 # Create data folder if it doesn't exist
-DATAPATH = os.path.join(os.path.dirname(__file__), 'traffic.txt')
+TRAFFIC_FILEPATH = os.path.join(os.path.dirname(__file__), 'data', 'traffic.txt')
 
 # Globals
 counter_start = datetime.utcnow().timestamp()
@@ -18,16 +18,20 @@ visits_list = []
 
 
 def init():
+    _dir = os.path.dirname(TRAFFIC_FILEPATH)
+    if not os.path.exists(_dir):
+        os.makedirs(_dir)
 
     global visits_list
-    if os.path.exists(DATAPATH):
-        with open(DATAPATH, 'r') as f:
+    if os.path.exists(TRAFFIC_FILEPATH):
+        with open(TRAFFIC_FILEPATH, 'r') as f:
             visits_list = f.readlines()
-        register(write_traffics)
+
+    register(write_traffics)
 
 
 def write_traffics():
-    with open(DATAPATH, 'w') as file:
+    with open(TRAFFIC_FILEPATH, 'w') as file:
         file.writelines(visits_list)
 
 def list2html(lst):
