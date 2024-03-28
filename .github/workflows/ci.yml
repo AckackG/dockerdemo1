@@ -8,22 +8,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo # pull代码到运行服务器上
-        uses: actions/checkout
+        uses: actions/checkout@v4
 
       - name: Log in to Docker Hub
-        uses: docker/login-action # dockerhub login-action
+        uses: docker/login-action@v3 # dockerhub login-action
         with:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action
+        uses: docker/metadata-action@v5
         with:
           images: ackack/flaskdemo1
 
       - name: Build and push Docker image
-        uses: docker/build-push-action
+        uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
