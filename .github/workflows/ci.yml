@@ -10,8 +10,8 @@ jobs:
       - name: Check out the repo # pull代码到运行服务器上
         uses: actions/checkout@v4
 
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v3 # dockerhub login-action
+      - name: Log in to Docker Hub # 登录至dockerhub
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -22,11 +22,11 @@ jobs:
 #        with:
 #          images: ackack/flaskdemo1
 
-      - name: Build and push Docker image
+      - name: Build and push Docker image # build 和 push
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
           push: true
-          tags: user/app:latest
+          tags: ackack/flaskdemo1:latest
 #          labels: ${{ steps.meta.outputs.labels }}
