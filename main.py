@@ -3,21 +3,22 @@ from datetime import datetime
 from atexit import register
 from flask import Flask, request
 
-app = Flask(__name__)
-
-# Set host and port
-HOST = '0.0.0.0'
-PORT = 5000
-
-# Create data folder if it doesn't exist
+FILESAVE_INTERVAL = 10
 TRAFFIC_FILEPATH = os.path.join(os.path.dirname(__file__), 'data', 'traffic.txt')
 
 # Globals
 counter_start = datetime.utcnow().timestamp()
 visits_list = []
 
+app = Flask(__name__)
+
+# Set host and port
+HOST = '0.0.0.0'
+PORT = 5000
+
 
 def init():
+    # Create data folder if it doesn't exist
     _dir = os.path.dirname(TRAFFIC_FILEPATH)
     if not os.path.exists(_dir):
         os.makedirs(_dir)
@@ -47,14 +48,14 @@ def index():
     headers = dict(request.headers)
     query_params = dict(request.args)
 
-    visits_list.append(f"{datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} : {ip_address}\n")
+    visits_list.append(f"{datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} : {ip_address} | {user_agent}\n")
 
     # 定时和文件交换列表
     global counter_start
     now = datetime.utcnow().timestamp()
     time_passed = now - counter_start
 
-    if time_passed > 10:
+    if time_passed > FILESAVE_INTERVAL:
         counter_start = now
         write_traffics()
 
