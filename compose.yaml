@@ -1,0 +1,9 @@
+services:
+  flaskdemo:
+    build: .
+    ports:
+      - "80:5000"
+    volumes:
+      - flaskdemo-v:/usr/src/app/data
+volumes:
+  flaskdemo-v:
