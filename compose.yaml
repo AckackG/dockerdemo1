@@ -1,3 +1,5 @@
+name: compose-watch-demo
+
 services:
   flaskdemo:
     build: .
@@ -5,5 +7,14 @@ services:
       - "80:5000"
     volumes:
       - flaskdemo-v:/usr/src/app/data
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: usr/src/app
+          ignore:
+            - data/
+        - action: rebuild
+          path: requirements.txt
 volumes:
   flaskdemo-v:

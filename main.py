@@ -3,6 +3,7 @@ from datetime import datetime
 from atexit import register
 from flask import Flask, request
 
+VERSION = 'V1.1'
 FILESAVE_INTERVAL = 10
 TRAFFIC_FILEPATH = os.path.join(os.path.dirname(__file__), 'data', 'traffic.txt')
 
@@ -60,7 +61,7 @@ def index():
         write_traffics()
 
     return f'''
-    <h1>Viewer Information</h1>
+    <h1>Viewer Information {VERSION}</h1>
     <p><strong>IP Address:</strong> {ip_address}</p>
     <p><strong>User Agent:</strong> {user_agent}</p>
     <p><strong>Browser:</strong> {browser}</p>
@@ -74,4 +75,4 @@ def index():
 
 if __name__ == '__main__':
     init()
-    app.run(host=HOST, port=PORT)
+    app.run(host=HOST, port=PORT,debug=True)
