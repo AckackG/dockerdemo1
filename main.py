@@ -37,7 +37,7 @@ def write_traffics():
         file.writelines(visits_list)
 
 def list2html(lst):
-    return ''.join(['<p>'+ x + '</p>'for x in lst])
+    return ''.join(['<p>'+ x + '</p>'for x in lst[::-1]])
 
 
 @app.route('/')

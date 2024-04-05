@@ -1,4 +1,4 @@
-name: compose-watch-demo
+name: flaskdemov1
 
 services:
   flaskdemo:
@@ -18,3 +18,5 @@ services:
           path: requirements.txt
 volumes:
   flaskdemo-v:
+    name: flaskdemo-v
+
