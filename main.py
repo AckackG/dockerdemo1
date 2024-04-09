@@ -3,7 +3,7 @@ from datetime import datetime
 from atexit import register
 from flask import Flask, request
 
-VERSION = 'V1.1'
+VERSION = 'V1.2 in github codespace'
 FILESAVE_INTERVAL = 10
 TRAFFIC_FILEPATH = os.path.join(os.path.dirname(__file__), 'data', 'traffic.txt')
 
