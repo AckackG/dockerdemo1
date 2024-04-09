@@ -1,4 +1,4 @@
-name: actions
+name: push to dockerhub
 
 on: push # 触发事件
 
