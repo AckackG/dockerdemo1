@@ -2,3 +2,5 @@
 /.venv2/
 /.idea/
 /data/
+/1.env
+/debug2.py
