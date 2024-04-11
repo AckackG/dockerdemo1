@@ -12,7 +12,7 @@ app.logger.setLevel(logging.INFO)
 
 # 定义常量
 VERSION = 'V1.3'
-FILESAVE_INTERVAL = 60 # in seconds
+FILESAVE_INTERVAL = 60  # in seconds
 TRAFFIC_FILEPATH = os.path.join(os.path.dirname(__file__), 'data', 'traffic.txt')
 TRAFFIC_FILEPATH2 = os.path.join(os.path.dirname(__file__), 'data', 'traffic2.txt')
 
@@ -31,7 +31,7 @@ def list2html(lst):
 
 def save_data():
     global visits_list, secret_list
-    app.logger.info("File saved",exc_info=True)
+    app.logger.info("File saved", exc_info=True)
     with open(TRAFFIC_FILEPATH, 'w') as file:
         file.writelines(visits_list)
     with open(TRAFFIC_FILEPATH2, 'w') as file:
@@ -76,16 +76,61 @@ def index():
         visits_list.append(f"{datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} : {ip_address} | {user_agent}\n")
 
         return f'''
-            <h1>Viewer Information {VERSION}</h1>
-            <p><strong>IP Address:</strong> {ip_address}</p>
-            <p><strong>User Agent:</strong> {user_agent}</p>
-            <p><strong>Browser:</strong> {browser}</p>
-            <p><strong>Request Method:</strong> {request_method}</p>
-            <p><strong>Headers:</strong> {headers}</p>
-            <p><strong>Query Parameters:</strong> {query_params}</p>
-            <p><strong>Total Visits:</strong></p>
-            <div>{list2html(visits_list)}</div>
-            '''
+        <style>
+        body {{
+            font-family: sans-serif;  /* Use a modern font */
+            margin: 2rem;  /* Add some margin for spacing */
+        }}
+
+        h1 {{
+            text-align: center;  /* Center align the title */
+        }}
+
+        p {{
+            margin-bottom: 0.5rem;  /* Add some space between paragraphs */
+        }}
+
+        .info-container {{  /* Create a container for info sections */
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;  /* Distribute evenly */
+        }}
+
+        .info-section {{   /* Style each info section */
+            width: 45%;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;  /* Add rounded corners */
+            margin-bottom: 1rem;
+        }}
+
+        </style>
+        <h1>Viewer Information {VERSION}</h1>
+        <div class="info-container">
+            <div class="info-section">
+                <strong>IP Address:</strong> {ip_address}
+            </div>
+            <div class="info-section">
+                <strong>User Agent:</strong> {user_agent}
+            </div>
+            <div class="info-section">
+                <strong>Browser:</strong> {browser}
+            </div>
+            <div class="info-section">
+                <strong>Request Method:</strong> {request_method}
+            </div>
+            <div class="info-section">
+                <strong>Headers:</strong> <br>
+                {', '.join([f'{key}: {value}' for key, value in headers.items()])}
+            </div>
+            <div class="info-section">
+                <strong>Query Parameters:</strong> <br>
+                {', '.join([f'{key}: {value}' for key, value in query_params.items()])}
+            </div>
+        </div>
+        <p><strong>Total Visits:</strong></p>
+        <div>{list2html(visits_list)}</div>
+        '''
 
     except Exception as e:
         return str(e), 500
@@ -104,16 +149,48 @@ def secret():
         secret_list.append(f"{datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} : {ip_address} | {user_agent}\n")
 
         return f'''
-            <h1>Secret Information {VERSION}</h1>
-            <p><strong>IP Address:</strong> {ip_address}</p>
-            <p><strong>User Agent:</strong> {user_agent}</p>
-            <p><strong>Browser:</strong> {browser}</p>
-            <p><strong>Request Method:</strong> {request_method}</p>
-            <p><strong>Headers:</strong> {headers}</p>
-            <p><strong>Query Parameters:</strong> {query_params}</p>
-            <p><strong>Total Visits:</strong></p>
-            <div>{list2html(secret_list)}</div>
-                '''
+            <html>
+            <head>
+                <title>Viewer Information</title>
+                <style>
+                    body {{
+                        font-family: Arial, sans-serif;
+                        margin: 20px;
+                        padding: 20px;
+                        background-color: #f4f4f4;
+                    }}
+                    h1 {{
+                        color: #333;
+                        text-align: center;
+                    }}
+                    p {{
+                        margin-bottom: 10px;
+                    }}
+                    strong {{
+                        color: #555;
+                    }}
+                    div {{
+                        border: 1px solid #ccc;
+                        padding: 10px;
+                        margin-top: 20px;
+                        max-height: 200px;
+                        overflow-y: auto;
+                    }}
+                </style>
+            </head>
+            <body>
+                <h1>Viewer Information {VERSION}</h1>
+                <p><strong>IP Address:</strong> {ip_address}</p>
+                <p><strong>User Agent:</strong> {user_agent}</p>
+                <p><strong>Browser:</strong> {browser}</p>
+                <p><strong>Request Method:</strong> {request_method}</p>
+                <p><strong>you should not see this page!</strong></p>
+                <p><strong>Query Parameters:</strong> {query_params}</p>
+                <p><strong>Total Visits:</strong></p>
+                <div>{list2html(secret_list)}</div>
+            </body>
+            </html>
+            '''
     except Exception as e:
         return str(e), 500
 
